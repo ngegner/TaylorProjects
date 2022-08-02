@@ -1,4 +1,6 @@
-This is the handout directory for the CS:APP Cache Lab. 
+This is the handout directory for the CS:APP Cache Lab.
+This lab consists of a cache simulator program and a cache matrix transpose program.
+NOTE: This README was given to my team and I by our professor and describes how to run both programs.
 
 ************************
 Running the autograders:
