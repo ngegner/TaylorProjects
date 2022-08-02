@@ -1,4 +1,4 @@
-# Levi and Noah - COS 331 project
+# Noah Gegner - COS 331 project
 # Specification
 This is a stop-and-wait reliable file transfer protocol. When a file is requested, the server sends one packet of data, and then waits for a response from the client. Once an acknowledgement received, the server sends the next packet, and so on. The server cannot send the next packet of data until it receives a response from the previous packet.
 ## Server
