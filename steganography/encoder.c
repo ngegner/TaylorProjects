@@ -78,11 +78,9 @@ void allocateMemory(int height, int width, IMAGE_t* p_image) {
 
     // set image pixels to value of pp_pixel
     p_image->rgba = pp_pixel;
-
 }
 
 char* getBinary(char *str) {
-
 
     // allocate memory for binary string
     size_t stringLength = strlen(str);
@@ -104,18 +102,14 @@ char* getBinary(char *str) {
     }
 
     return binary;
-
 }
 
 char convertPixel(char c, char secretBit) {
 
     if (secretBit == '1') {
         if (c % 2 == 0) return ++c;
-    } else if (c % 2 == 1) {
-        return --c;
-    }
-    return c;
-
+    } else if (c % 2 == 1) return --c;
+    else return c;
 }
 
 char convertToNull(char c) { return c % 2 == 1 ? --c : c; }
@@ -169,7 +163,6 @@ int main(int argc, char** argv) {
     char test;
     for (int i=0; i<header.imageOffset; i++) {
         fread(&test, 1, 1, fp);
-        // printf("%d\n", test);
         fwrite(&test, 1, 1, outf);
     }
 
@@ -182,29 +175,26 @@ int main(int argc, char** argv) {
 
     for (int i=0; i<image.height; i++) {
         for (int j=0; j<image.width; j++) {
-            image.rgba[i][j].rgba[0] = (char) getc(fp); // put the blue value of the pixel
+            image.rgba[i][j].rgba[0] = (char) getc(fp); // blue value
             if (count > 0) {
-                image.rgba[i][j].rgba[0] = convertPixel(image.rgba[i][j].rgba[0], binSecret[si]); // change LSB if necessary
-                // increment iterators
+                image.rgba[i][j].rgba[0] = convertPixel(image.rgba[i][j].rgba[0], binSecret[si]);
                 si++;
                 count--;
             } else if (count > -8) { // null byte
                 image.rgba[i][j].rgba[0] = convertToNull(image.rgba[i][j].rgba[0]);
-                // change count but no need to change secret index anymore
                 count--;
             }
+
             // write byte to out image
             fwrite(&image.rgba[i][j].rgba[0], 1, 1, outf);
 
             image.rgba[i][j].rgba[1] = (char) getc(fp); // green value
             if (count > 0) {
-                image.rgba[i][j].rgba[1] = convertPixel(image.rgba[i][j].rgba[1], binSecret[si]); // change LSB if necessary
-                // increment iterators
+                image.rgba[i][j].rgba[1] = convertPixel(image.rgba[i][j].rgba[1], binSecret[si]);
                 si++;
                 count--;
             } else if (count > -8) { // null byte
                 image.rgba[i][j].rgba[1] = convertToNull(image.rgba[i][j].rgba[1]);
-                // change count but no need to change secret index anymore
                 count--;
             }
             // write byte to out image
@@ -212,15 +202,14 @@ int main(int argc, char** argv) {
 
             image.rgba[i][j].rgba[2] = (char) getc(fp); // red value
             if (count > 0 ) {
-                image.rgba[i][j].rgba[2] = convertPixel(image.rgba[i][j].rgba[2], binSecret[si]); // change LSB if necessary
-                // increment iterators
+                image.rgba[i][j].rgba[2] = convertPixel(image.rgba[i][j].rgba[2], binSecret[si]);
                 si++;
                 count--;
             } else if (count > -8) { // null byte
                 image.rgba[i][j].rgba[2] = convertToNull(image.rgba[i][j].rgba[2]);
-                // change count but no need to change secret index anymore
                 count--;
             }
+
             // write byte to out image
             fwrite(&image.rgba[i][j].rgba[2], 1, 1, outf);
 
@@ -230,9 +219,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    // close images
     fclose(fp);
     fclose(outf);
     return 0;
-
 }
