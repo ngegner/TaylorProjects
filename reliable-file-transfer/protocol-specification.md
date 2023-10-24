@@ -24,18 +24,18 @@ Finally, the packet contains the data to be sent. In the case of the server, thi
 ## Example Packet Sequences
 Figure 1 displays the packet sequence assuming no loss occurs on either side:
 
-![Figure 1](https://repo.cse.taylor.edu/group-work/ldetloff-ngegner/-/blob/master/images/IMG_1964.png)
+![Figure 1](https://github.com/ngegner/TaylorProjects/blob/main/reliable-file-transfer/images/IMG_1964.png)
 
-Figure 2 shows the packet sequence  taken in an instance of packet loss on the server side.
+Figure 2 shows the packet sequence taken in an instance of packet loss on the server side.
 
-![Figure 2](https://repo.cse.taylor.edu/group-work/ldetloff-ngegner/-/blob/master/images/IMG_1965.png)
+![Figure 2](https://github.com/ngegner/TaylorProjects/blob/main/reliable-file-transfer/images/IMG_1965.png)
 
 Figure 3 shows the path taken when an ACK packet is lost.\n
 
-![Figure 3](https://repo.cse.taylor.edu/group-work/ldetloff-ngegner/-/blob/master/images/IMG_1966.png)
+![Figure 3](https://github.com/ngegner/TaylorProjects/blob/main/reliable-file-transfer/images/IMG_1966.png)
 
 Figure 4 displays the sequence taken when a duplicate packet is sent.\n
 
-![Figure 4](https://repo.cse.taylor.edu/group-work/ldetloff-ngegner/-/blob/master/images/IMG_1967.png)
+![Figure 4](https://github.com/ngegner/TaylorProjects/blob/main/reliable-file-transfer/images/IMG_1967.png)
 
 

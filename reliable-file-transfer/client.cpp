@@ -27,7 +27,6 @@ char *LOCAL_PATH;
 const struct addrinfo *p;
 
 void test_store_data() {
-
     ifstream stream;
     stream.open(LOCAL_PATH, ios::out);
     stream.seekg(0, std::ifstream::end);
@@ -43,30 +42,23 @@ void test_store_data() {
 }
 
 void store_data(char buf[], ofstream *stream) {
-
     // must get rid of sequence number bit
     size_t buf_len = strlen(buf);
     char store_buf[buf_len-1];
     copy(buf+1, buf+buf_len, store_buf);
     stream->write(store_buf, (long)buf_len-1);
-
 }
 
 ssize_t send_packet(int sockfd, char *message) {
 
     ssize_t numbytes;
-    if ((numbytes = sendto(sockfd, message, strlen(message), 0, p->ai_addr, p->ai_addrlen)) == -1)
-        return -1;
-
+    if ((numbytes = sendto(sockfd, message, strlen(message), 0, p->ai_addr, p->ai_addrlen)) == -1) return -1;
     return numbytes;
 }
 
 int process_request(int sockfd) {
-
     // send initial request
-    if (send_packet(sockfd, REMOTE_PATH) == -1) {
-        perror("send failed");
-    }
+    if (send_packet(sockfd, REMOTE_PATH) == -1) perror("send failed");
 
     ofstream stream;
     stream.open(LOCAL_PATH, ios::out);
@@ -79,15 +71,13 @@ int process_request(int sockfd) {
     char *ACK1 = (char *)"1";
     socklen_t addrlen = p->ai_addrlen;
     char current_seq_num = '0';
-    while (true) { // change when ending of loop decided
+    while (true) {
         char buf[MAXBUFLEN];
         ssize_t numbytes;
 
-        if ((numbytes = recvfrom(sockfd, buf, MAXBUFLEN-1, 0, p->ai_addr,
-                                 &addrlen)) == -1)
-            continue; // wait for a correct packet
-
+        if ((numbytes = recvfrom(sockfd, buf, MAXBUFLEN-1, 0, p->ai_addr, &addrlen)) == -1) continue; // wait for a correct packet
         if (buf[0] != current_seq_num) continue; // wait for server to timeout and send correct packet
+        
         store_data(buf, &stream);
 
         if (current_seq_num == '0') {
@@ -105,7 +95,6 @@ int process_request(int sockfd) {
 }
 
 int main(int argc, char *argv[]) {
-
     if (argc != 5) {
         fprintf(stderr,"usage: talker hostname message\n");
         exit(1);
@@ -131,8 +120,7 @@ int main(int argc, char *argv[]) {
 
     // loop through all the results and make a socket
     for(p = servinfo; p != nullptr ; p = p->ai_next) {
-        if ((sockfd = socket(p->ai_family, p->ai_socktype,
-                             p->ai_protocol)) == -1) {
+        if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
             perror("talker: socket");
             continue;
         }
@@ -146,7 +134,6 @@ int main(int argc, char *argv[]) {
     }
 
     process_request(sockfd);
-
     freeaddrinfo(servinfo);
     close(sockfd);
     return 0;
